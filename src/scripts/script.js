@@ -217,11 +217,16 @@ qarzForm.addEventListener("submit", function (e) {
         ? document.getElementById("customProduct")?.value || "Boshqa"
         : inputFields.mahsulot.value
 
+    // Qarz miqdorini to'g'ri formatlash
+    const qarzMiqdori = parseFloat(
+      inputFields.qarzMiqdori.value.replace(/,/g, "")
+    )
+
     const yangiMalumot = {
       mijozIsmi: inputFields.mijozIsmi.value,
       telefon: inputFields.telefon.value,
       mahsulot: mahsulotValue,
-      qarzMiqdori: parseFloat(inputFields.qarzMiqdori.value),
+      qarzMiqdori: qarzMiqdori,
       sana: inputFields.sana.value,
       tolashMuddati: inputFields.tolashMuddati.value,
       status: "To'lanmagan",
@@ -542,8 +547,12 @@ function formatNumber(input) {
   const num = parseFloat(value.replace(/,/g, ""))
 
   if (!isNaN(num)) {
-    // toLocaleString() orqali formatlash
-    input.value = num.toLocaleString("en-US")
+    // toLocaleString() orqali formatlash, decimal places bilan
+    const formattedNumber = num.toLocaleString("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    })
+    input.value = formattedNumber
   } else {
     input.value = value // Agar raqam bo'lmasa, kiritilgan qiymatni qoldiramiz
   }
