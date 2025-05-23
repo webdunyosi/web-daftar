@@ -43,6 +43,35 @@ async function sendTelegramMessage(message) {
   }
 }
 
+// Telegram orqali fayl yuborish
+async function sendTelegramFile(file, caption) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.warn("Telegram bot token yoki chat ID kiritilmagan!")
+    return
+  }
+
+  try {
+    const formData = new FormData()
+    formData.append("chat_id", TELEGRAM_CHAT_ID)
+    formData.append("document", file)
+    formData.append("caption", caption)
+
+    const response = await fetch(
+      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error("Telegram fayli yuborilmadi")
+    }
+  } catch (error) {
+    console.error("Telegram fayl yuborishda xatolik:", error)
+  }
+}
+
 // Joriy foydalanuvchini tekshirish
 const currentUser = checkAuth()
 
@@ -477,61 +506,131 @@ searchInput.addEventListener("input", (e) => {
   qarzlarniKorsatish(e.target.value)
 })
 
+// Excelga export qilish va Telegramga yuborish
+async function exportToExcel() {
+  try {
+    // Qarzlar ma'lumotlarini olish
+    const qarzlar = JSON.parse(localStorage.getItem("qarzlar")) || []
+    const bugun = new Date()
+
+    // Sana va vaqtni formatlash
+    const formattedDateTime = bugun
+      .toLocaleString("uz-UZ", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      })
+      .replace(/[/:]/g, "-")
+      .replace(",", "_")
+
+    // Excel uchun ma'lumotlarni tayyorlash
+    const excelData = qarzlar.map((qarz) => {
+      const tolashMuddati = new Date(qarz.tolashMuddati)
+      const qolganKunlar = Math.ceil(
+        (tolashMuddati - bugun) / (1000 * 60 * 60 * 24)
+      )
+
+      let qolganKunlarText = ""
+      if (qarz.status === "To'langan") {
+        qolganKunlarText = "To'langan"
+      } else if (qolganKunlar < 0) {
+        qolganKunlarText = `${Math.abs(qolganKunlar)} kun o'tgan`
+      } else if (qolganKunlar === 0) {
+        qolganKunlarText = "Bugun"
+      } else {
+        qolganKunlarText = `${qolganKunlar} kun qoldi`
+      }
+
+      return {
+        "Mijoz ismi": qarz.mijozIsmi,
+        Telefon: qarz.telefon,
+        Mahsulot: qarz.mahsulot,
+        "Qarz miqdori": qarz.qarzMiqdori,
+        Sana: new Date(qarz.sana).toLocaleDateString(),
+        "To'lash muddati": new Date(qarz.tolashMuddati).toLocaleDateString(),
+        Holati: qarz.status,
+        "Qolgan kunlar": qolganKunlarText,
+      }
+    })
+
+    // Worksheet yaratish
+    const ws = XLSX.utils.json_to_sheet(excelData)
+
+    // Workbook yaratish
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, "Qarzlar")
+
+    // Excel faylini yuklab olish
+    const fileName = `Qarzlar_${formattedDateTime}.xlsx`
+
+    // Excel faylini blob formatiga o'tkazish
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" })
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    })
+    const file = new File([blob], fileName, {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    })
+
+    // Telegramga yuborish
+    const caption = `📊 Qarzlar hisoboti\n\n📅 Sana va vaqt: ${bugun.toLocaleString(
+      "uz-UZ"
+    )}\n👥 Jami mijozlar: ${qarzlar.length}\n💰 Jami qarzlar: ${qarzlar
+      .reduce((sum, q) => sum + q.qarzMiqdori, 0)
+      .toLocaleString()} so'm`
+
+    // Excel faylini yuklab olish
+    XLSX.writeFile(wb, fileName)
+
+    // Telegramga yuborish
+    await sendTelegramFile(file, caption)
+
+    alert("Excel fayli yuklandi va Telegram kanalga yuborildi!")
+  } catch (error) {
+    console.error("Excel yaratishda xatolik:", error)
+    alert("Excel faylini yaratishda xatolik yuz berdi!")
+  }
+}
+
+// Kunlik hisobot yuborish uchun funksiya
+function scheduleDailyReport() {
+  const now = new Date()
+  const reportTime = new Date(now)
+  reportTime.setHours(22, 0, 0, 0) // 22:00 ga sozlash
+
+  // Agar hozirgi vaqt 22:00 dan keyin bo'lsa, keyingi kunga o'tkazish
+  if (now > reportTime) {
+    reportTime.setDate(reportTime.getDate() + 1)
+  }
+
+  // Keyingi hisobot vaqtigacha qolgan vaqtni hisoblash
+  const timeUntilReport = reportTime - now
+
+  // Hisobotni yuborish
+  setTimeout(async () => {
+    try {
+      await exportToExcel()
+      console.log("Kunlik hisobot muvaffaqiyatli yuborildi!")
+    } catch (error) {
+      console.error("Kunlik hisobot yuborishda xatolik:", error)
+    }
+    // Keyingi kun uchun yangi vaqtni sozlash
+    scheduleDailyReport()
+  }, timeUntilReport)
+}
+
 // Sahifa yuklanganda qarzlarni ko'rsatish va statistikani yangilash
 document.addEventListener("DOMContentLoaded", () => {
   qarzlarniKorsatish()
   updateStats()
   restoreFormData()
   handleProductSelection()
+  scheduleDailyReport() // Kunlik hisobotni boshlash
 })
-
-// Excelga export qilish
-function exportToExcel() {
-  // Qarzlar ma'lumotlarini olish
-  const qarzlar = JSON.parse(localStorage.getItem("qarzlar")) || []
-  const bugun = new Date()
-
-  // Excel uchun ma'lumotlarni tayyorlash
-  const excelData = qarzlar.map((qarz) => {
-    const tolashMuddati = new Date(qarz.tolashMuddati)
-    const qolganKunlar = Math.ceil(
-      (tolashMuddati - bugun) / (1000 * 60 * 60 * 24)
-    )
-
-    let qolganKunlarText = ""
-    if (qarz.status === "To'langan") {
-      qolganKunlarText = "To'langan"
-    } else if (qolganKunlar < 0) {
-      qolganKunlarText = `${Math.abs(qolganKunlar)} kun o'tgan`
-    } else if (qolganKunlar === 0) {
-      qolganKunlarText = "Bugun"
-    } else {
-      qolganKunlarText = `${qolganKunlar} kun qoldi`
-    }
-
-    return {
-      "Mijoz ismi": qarz.mijozIsmi,
-      Telefon: qarz.telefon,
-      Mahsulot: qarz.mahsulot,
-      "Qarz miqdori": qarz.qarzMiqdori,
-      Sana: new Date(qarz.sana).toLocaleDateString(),
-      "To'lash muddati": new Date(qarz.tolashMuddati).toLocaleDateString(),
-      Holati: qarz.status,
-      "Qolgan kunlar": qolganKunlarText,
-    }
-  })
-
-  // Worksheet yaratish
-  const ws = XLSX.utils.json_to_sheet(excelData)
-
-  // Workbook yaratish
-  const wb = XLSX.utils.book_new()
-  XLSX.utils.book_append_sheet(wb, ws, "Qarzlar")
-
-  // Excel faylini yuklab olish
-  const fileName = `Qarzlar_${new Date().toLocaleDateString()}.xlsx`
-  XLSX.writeFile(wb, fileName)
-}
 
 // Raqamlarni formatlash
 function formatNumber(input) {
