@@ -1,3 +1,7 @@
+* {
+  outline: none;
+}
+
 /* Input stillarini sozlash */
 input {
   border: 1px solid #e2e8f0;
@@ -34,7 +38,7 @@ tbody tr:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2070&auto=format&fit=crop');
+  background-image: url("https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2070&auto=format&fit=crop");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -42,15 +46,17 @@ tbody tr:hover {
 }
 
 .main-background::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg,
-      rgba(102, 126, 234, 0.9) 0%,
-      rgba(118, 75, 162, 0.9) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.9) 0%,
+    rgba(118, 75, 162, 0.9) 100%
+  );
   z-index: -1;
 }
 
@@ -204,16 +210,18 @@ tbody tr:hover {
 }
 
 .submit-button::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   transition: 0.5s;
 }
 
@@ -246,7 +254,6 @@ tbody tr:hover {
 }
 
 @keyframes storeIconFloat {
-
   0%,
   100% {
     transform: translateY(0);
@@ -313,16 +320,37 @@ tbody tr:hover {
 .search-box {
   position: relative;
   width: 300px;
+  max-width: 100%;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+
+.search-box:focus-within {
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.2),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 1);
 }
 
 .search-input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.75rem;
-  border: 2px solid rgba(226, 232, 240, 0.7);
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  background: none;
   font-size: 0.95rem;
+  color: #333;
   transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: #6b7280;
+  opacity: 0.8;
+}
+
+.search-input:focus {
+  outline: none;
 }
 
 .search-icon {
@@ -333,16 +361,10 @@ tbody tr:hover {
   color: #9ca3af;
   transition: all 0.3s ease;
   pointer-events: none;
+  font-size: 1.2rem;
 }
 
-.search-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
-  background: rgba(255, 255, 255, 1);
-}
-
-.search-input:focus+.search-icon {
+.search-box:focus-within .search-icon {
   color: #3b82f6;
 }
 
@@ -417,5 +439,180 @@ tbody tr:hover {
 
   .form-group {
     margin-bottom: 1rem;
+  }
+}
+
+/* Filter tugmalari uchun animatsiyalar va stillar */
+.filter-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid;
+  cursor: pointer;
+  padding: 0.6rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Tugmalarning chegara va matn ranglari */
+.filter-btn[data-filter="all"] {
+  color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.filter-btn[data-filter="tolangan"] {
+  color: #10b981;
+  border-color: #10b981;
+}
+
+.filter-btn[data-filter="tolanmagan"] {
+  color: #f59e0b;
+  border-color: #f59e0b;
+}
+
+.filter-btn[data-filter="muddatiOtgan"] {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+/* Hover va Active holatlari (gradient fon qo'shish) */
+.filter-btn:hover:not(.active),
+.filter-btn.active {
+  color: white;
+  border-color: transparent;
+}
+
+.filter-btn[data-filter="all"]:hover:not(.active),
+.filter-btn[data-filter="all"].active {
+  background: linear-gradient(to right, #3b82f6, #60a5fa);
+}
+
+.filter-btn[data-filter="tolangan"]:hover:not(.active),
+.filter-btn[data-filter="tolangan"].active {
+  background: linear-gradient(to right, #10b981, #34d399);
+}
+
+.filter-btn[data-filter="tolanmagan"]:hover:not(.active),
+.filter-btn[data-filter="tolanmagan"].active {
+  background: linear-gradient(to right, #f59e0b, #fbbf24);
+}
+
+.filter-btn[data-filter="muddatiOtgan"]:hover:not(.active),
+.filter-btn[data-filter="muddatiOtgan"].active {
+  background: linear-gradient(to right, #ef4444, #f87171);
+}
+
+.filter-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.filter-btn:active::after {
+  animation: ripple 0.6s linear forwards;
+}
+
+/* Active holati stillari */
+.filter-btn.active {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.2),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover effekti */
+.filter-btn:hover:not(.active) {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.15),
+    0 2px 4px -1px rgba(0, 0, 0, 0.08);
+}
+
+/* Bosilgandagi effekt (active::after bilan birgalikda ishlaydi) */
+.filter-btn:active:not(.active) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Ripple effekti animatsiyasi */
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+/* Kichik ekranlarda matnni yashirish */
+@media (max-width: 640px) {
+  .filter-btn span {
+    display: none;
+  }
+  .filter-btn {
+    padding: 0.6rem;
+    width: auto;
+    flex-grow: 1;
+  }
+  .filter-btn i {
+    margin: 0;
+  }
+
+  /* Filter tugmalari konteyneri */
+  .grid.grid-cols-4 {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    /* Scrollbarni yashirish (opsional) */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .grid.grid-cols-4::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  th,
+  td {
+    min-width: 120px;
+  }
+
+  .search-box {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  input,
+  .search-input {
+    padding: 0.625rem 1rem;
+    padding-left: 2.5rem;
+    font-size: 0.875rem;
   }
 }

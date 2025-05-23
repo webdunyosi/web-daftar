@@ -322,17 +322,36 @@ qarzForm.addEventListener("submit", function (e) {
 })
 
 // Qarzlar ro'yxatini ko'rsatish
-function qarzlarniKorsatish(searchTerm = "") {
+function qarzlarniKorsatish(searchTerm = "", filterType = "all") {
   qarzlarRoyxati.innerHTML = ""
 
-  const filteredQarzlar = qarzlar
-    .filter(
-      (qarz) =>
-        qarz.mijozIsmi.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        qarz.telefon.includes(searchTerm) ||
-        qarz.mahsulot.toLowerCase().includes(searchTerm.toLowerCase())
+  let filteredQarzlar = qarzlar.filter(
+    (qarz) =>
+      qarz.mijozIsmi.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      qarz.telefon.includes(searchTerm) ||
+      qarz.mahsulot.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  // Filter turiga qarab filtrlash
+  if (filterType === "tolangan") {
+    filteredQarzlar = filteredQarzlar.filter(
+      (qarz) => qarz.status === "To'langan"
     )
-    .reverse() // Yangi qo'shilganlar yuqorida ko'rinishi uchun
+  } else if (filterType === "tolanmagan") {
+    const today = new Date()
+    filteredQarzlar = filteredQarzlar.filter(
+      (qarz) =>
+        new Date(qarz.tolashMuddati) >= today && qarz.status === "To'lanmagan"
+    )
+  } else if (filterType === "muddatiOtgan") {
+    const today = new Date()
+    filteredQarzlar = filteredQarzlar.filter(
+      (qarz) =>
+        new Date(qarz.tolashMuddati) < today && qarz.status === "To'lanmagan"
+    )
+  }
+
+  filteredQarzlar.reverse() // Yangi qo'shilganlar yuqorida ko'rinishi uchun
 
   filteredQarzlar.forEach((qarz) => {
     const tr = document.createElement("tr")
@@ -503,8 +522,49 @@ function qarzniOchirish(id) {
 
 // Qidiruv funksionalligini qo'shish
 searchInput.addEventListener("input", (e) => {
-  qarzlarniKorsatish(e.target.value)
+  // Hozirgi faol filter turini olish
+  const activeFilterBtn = document.querySelector(".filter-btn.active")
+  const currentFilterType = activeFilterBtn
+    ? activeFilterBtn.dataset.filter
+    : "all"
+
+  qarzlarniKorsatish(e.target.value, currentFilterType)
 })
+
+// Filter tugmalarini boshqarish
+function filterQarzlar(filterType) {
+  // Barcha tugmalardan active klassini olib tashlash
+  document.querySelectorAll(".filter-btn").forEach((btn) => {
+    btn.classList.remove("active")
+  })
+
+  // Tanlangan tugmaga active klassini qo'shish
+  const selectedBtn = document.querySelector(`[data-filter="${filterType}"]`)
+  selectedBtn.classList.add("active")
+
+  // Ripple effekti uchun span yaratish va qo'shish
+  const ripple = document.createElement("span")
+  ripple.classList.add("ripple")
+
+  // Ripple pozitsiyasini sozlash (agar kerak bo'lsa - hozircha CSS bilan hal qilingan)
+  // const x = e.clientX - e.target.getBoundingClientRect().left;
+  // const y = e.clientY - e.target.getBoundingClientRect().top;
+  // ripple.style.left = `${x}px`;
+  // ripple.style.top = `${y}px`;
+
+  selectedBtn.appendChild(ripple)
+
+  // Ripple effektini animatsiyadan keyin tozalash
+  setTimeout(() => {
+    ripple.remove()
+  }, 600) // CSS animatsiya davomiyligi bilan mos bo'lishi kerak
+
+  // Qidiruv maydoni qiymatini saqlab qolish
+  const searchTerm = searchInput.value
+
+  // Qarzlarni filterlab ko'rsatish
+  qarzlarniKorsatish(searchTerm, filterType)
+}
 
 // Excelga export qilish va Telegramga yuborish
 async function exportToExcel() {
@@ -630,6 +690,11 @@ document.addEventListener("DOMContentLoaded", () => {
   restoreFormData()
   handleProductSelection()
   scheduleDailyReport() // Kunlik hisobotni boshlash
+
+  // Sahifa yuklanganda barchasi filterini faollashtirish
+  document
+    .querySelector('.filter-btn[data-filter="all"]')
+    .classList.add("active")
 })
 
 // Raqamlarni formatlash
