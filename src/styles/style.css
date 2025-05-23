@@ -452,56 +452,65 @@ tbody tr:hover {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: transparent;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
-/* Tugmalarning chegara va matn ranglari */
+/* Tugmalarning chegara, matn va fon ranglari (bosilmagan holat) */
 .filter-btn[data-filter="all"] {
   color: #3b82f6;
-  border-color: #3b82f6;
+  border-color: #60a5fa;
+  background-color: rgba(59, 130, 246, 0.2);
 }
 
 .filter-btn[data-filter="tolangan"] {
   color: #10b981;
-  border-color: #10b981;
+  border-color: #34d399;
+  background-color: rgba(16, 185, 129, 0.2);
 }
 
 .filter-btn[data-filter="tolanmagan"] {
   color: #f59e0b;
-  border-color: #f59e0b;
+  border-color: #fbbf24;
+  background-color: rgba(245, 158, 11, 0.2);
 }
 
 .filter-btn[data-filter="muddatiOtgan"] {
   color: #ef4444;
-  border-color: #ef4444;
+  border-color: #f87171;
+  background-color: rgba(239, 68, 68, 0.2);
 }
 
-/* Hover va Active holatlari (gradient fon qo'shish) */
+/* Hover va Active holatlari (gradient fon, oq matn, chegara yo'q) */
 .filter-btn:hover:not(.active),
 .filter-btn.active {
   color: white;
   border-color: transparent;
+  background: linear-gradient(to right, var(--start-color), var(--end-color));
 }
 
+/* Gradient fon ranglari (CSS variables yordamida) */
 .filter-btn[data-filter="all"]:hover:not(.active),
 .filter-btn[data-filter="all"].active {
-  background: linear-gradient(to right, #3b82f6, #60a5fa);
+  --start-color: #3b82f6;
+  --end-color: #60a5fa;
 }
 
 .filter-btn[data-filter="tolangan"]:hover:not(.active),
 .filter-btn[data-filter="tolangan"].active {
-  background: linear-gradient(to right, #10b981, #34d399);
+  --start-color: #10b981;
+  --end-color: #34d399;
 }
 
 .filter-btn[data-filter="tolanmagan"]:hover:not(.active),
 .filter-btn[data-filter="tolanmagan"].active {
-  background: linear-gradient(to right, #f59e0b, #fbbf24);
+  --start-color: #f59e0b;
+  --end-color: #fbbf24;
 }
 
 .filter-btn[data-filter="muddatiOtgan"]:hover:not(.active),
 .filter-btn[data-filter="muddatiOtgan"].active {
-  background: linear-gradient(to right, #ef4444, #f87171);
+  --start-color: #ef4444;
+  --end-color: #f87171;
 }
 
 .filter-btn::after {
