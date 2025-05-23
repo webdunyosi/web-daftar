@@ -296,12 +296,14 @@ qarzForm.addEventListener("submit", function (e) {
 function qarzlarniKorsatish(searchTerm = "") {
   qarzlarRoyxati.innerHTML = ""
 
-  const filteredQarzlar = qarzlar.filter(
-    (qarz) =>
-      qarz.mijozIsmi.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      qarz.telefon.includes(searchTerm) ||
-      qarz.mahsulot.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredQarzlar = qarzlar
+    .filter(
+      (qarz) =>
+        qarz.mijozIsmi.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        qarz.telefon.includes(searchTerm) ||
+        qarz.mahsulot.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .reverse() // Yangi qo'shilganlar yuqorida ko'rinishi uchun
 
   filteredQarzlar.forEach((qarz) => {
     const tr = document.createElement("tr")
