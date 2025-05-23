@@ -321,29 +321,39 @@ qarzForm.addEventListener("submit", function (e) {
   }
 })
 
-// Qarzlar ro'yxatini ko'rsatish
-function qarzlarniKorsatish(searchTerm = "", filterType = "all") {
-  qarzlarRoyxati.innerHTML = ""
+// Sana bo'yicha filtrlash funksiyasi
+function filterByDate(selectedDate) {
+  const searchTerm = searchInput.value
+  const currentFilterType =
+    document.querySelector(".filter-btn.active")?.dataset.filter || "all"
 
-  let filteredQarzlar = qarzlar.filter(
+  let filteredQarzlar = qarzlar.filter((qarz) => {
+    const qarzSana = new Date(qarz.sana).toISOString().split("T")[0]
+    // Agar selectedDate bo'sh bo'lsa, barcha sanalarni ko'rsatish
+    if (!selectedDate) return true
+    return qarzSana === selectedDate
+  })
+
+  // Mavjud qidiruv va filter turlarini ham hisobga olish
+  filteredQarzlar = filteredQarzlar.filter(
     (qarz) =>
       qarz.mijozIsmi.toLowerCase().includes(searchTerm.toLowerCase()) ||
       qarz.telefon.includes(searchTerm) ||
       qarz.mahsulot.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  // Filter turiga qarab filtrlash
-  if (filterType === "tolangan") {
+  // Filter turiga qarab yana bir marta filtrlash
+  if (currentFilterType === "tolangan") {
     filteredQarzlar = filteredQarzlar.filter(
       (qarz) => qarz.status === "To'langan"
     )
-  } else if (filterType === "tolanmagan") {
+  } else if (currentFilterType === "tolanmagan") {
     const today = new Date()
     filteredQarzlar = filteredQarzlar.filter(
       (qarz) =>
         new Date(qarz.tolashMuddati) >= today && qarz.status === "To'lanmagan"
     )
-  } else if (filterType === "muddatiOtgan") {
+  } else if (currentFilterType === "muddatiOtgan") {
     const today = new Date()
     filteredQarzlar = filteredQarzlar.filter(
       (qarz) =>
@@ -351,9 +361,50 @@ function qarzlarniKorsatish(searchTerm = "", filterType = "all") {
     )
   }
 
-  filteredQarzlar.reverse() // Yangi qo'shilganlar yuqorida ko'rinishi uchun
+  qarzlarniKorsatish("", "all", filteredQarzlar) // Filterlangan ro'yxatni ko'rsatish
+}
 
-  filteredQarzlar.forEach((qarz) => {
+// Qarzlar ro'yxatini ko'rsatish funksiyasini yangilash (filterlangan ro'yxatni qabul qilish uchun)
+function qarzlarniKorsatish(
+  searchTerm = "",
+  filterType = "all",
+  customFilteredQarzlar = null
+) {
+  qarzlarRoyxati.innerHTML = ""
+
+  let qarzListToShow =
+    customFilteredQarzlar ||
+    qarzlar.filter(
+      (qarz) =>
+        qarz.mijozIsmi.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        qarz.telefon.includes(searchTerm) ||
+        qarz.mahsulot.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
+  // Filter turiga qarab filtrlash (agar customFilteredQarzlar berilmagan bo'lsa)
+  if (!customFilteredQarzlar) {
+    if (filterType === "tolangan") {
+      qarzListToShow = qarzListToShow.filter(
+        (qarz) => qarz.status === "To'langan"
+      )
+    } else if (filterType === "tolanmagan") {
+      const today = new Date()
+      qarzListToShow = qarzListToShow.filter(
+        (qarz) =>
+          new Date(qarz.tolashMuddati) >= today && qarz.status === "To'lanmagan"
+      )
+    } else if (filterType === "muddatiOtgan") {
+      const today = new Date()
+      qarzListToShow = qarzListToShow.filter(
+        (qarz) =>
+          new Date(qarz.tolashMuddati) < today && qarz.status === "To'lanmagan"
+      )
+    }
+  }
+
+  qarzListToShow.reverse() // Yangi qo'shilganlar yuqorida ko'rinishi uchun
+
+  qarzListToShow.forEach((qarz) => {
     const tr = document.createElement("tr")
 
     // Qarz muddati o'tganmi tekshirish
@@ -460,7 +511,7 @@ function qarzlarniKorsatish(searchTerm = "", filterType = "all") {
   })
 
   // Agar hech qanday qarz topilmasa
-  if (filteredQarzlar.length === 0) {
+  if (qarzListToShow.length === 0) {
     const emptyMessage = document.createElement("tr")
     emptyMessage.innerHTML = `
             <td colspan="7" class="px-6 py-4 text-center text-gray-500">
@@ -695,6 +746,17 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .querySelector('.filter-btn[data-filter="all"]')
     .classList.add("active")
+
+  // Kalendar ikonkasi bosilganda kalendarni ochish
+  const sanaFilterInput = document.getElementById("sanaFilter")
+  const calendarIcon = document.querySelector(".calendar-icon")
+
+  if (sanaFilterInput && calendarIcon) {
+    calendarIcon.style.cursor = "pointer" // Kursor style o'zgartirish
+    calendarIcon.addEventListener("click", () => {
+      sanaFilterInput.showPicker() // Kalendarni ochish
+    })
+  }
 })
 
 // Raqamlarni formatlash

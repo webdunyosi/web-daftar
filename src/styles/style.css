@@ -620,3 +620,47 @@ tbody tr:hover {
     font-size: 0.875rem;
   }
 }
+
+/* Sana filter container */
+.date-filter-container {
+  padding-right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.date-filter-container span {
+  /* Match table header text style */
+  color: #4b5563;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* Sana filter input styles */
+.date-filter-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Hide the default input */
+  cursor: pointer;
+}
+
+/* Calendar icon styles */
+.calendar-icon {
+  color: #4b5563; /* Match table header text color */
+  font-size: 1rem; /* Adjust size as needed */
+  pointer-events: none; /* Allow clicks to pass through to the input */
+  position: relative;
+  z-index: 1;
+}
+
+.date-filter-container:hover .calendar-icon,
+.date-filter-container:focus-within .calendar-icon {
+  color: #3b82f6; /* Change icon color on hover/focus */
+}

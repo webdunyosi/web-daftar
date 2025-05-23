@@ -262,8 +262,21 @@
                   <th class="table-header whitespace-nowrap">Telefon</th>
                   <th class="table-header whitespace-nowrap">Mahsulot</th>
                   <th class="table-header whitespace-nowrap">Qarz miqdori</th>
-                  <th class="table-header whitespace-nowrap">Sana</th>
-                  <th class="table-header whitespace-nowrap">To'lash muddati</th>
+                  <th class="table-header whitespace-nowrap">
+                    <div class="date-filter-container">
+                      <span>Sana</span>
+                      <input
+                        type="date"
+                        id="sanaFilter"
+                        class="date-filter-input"
+                        onchange="filterByDate(this.value)"
+                      />
+                      <i class="fas fa-calendar-alt calendar-icon"></i>
+                    </div>
+                  </th>
+                  <th class="table-header whitespace-nowrap">
+                    To'lash muddati
+                  </th>
                   <th class="table-header whitespace-nowrap">Amallar</th>
                 </tr>
               </thead>
