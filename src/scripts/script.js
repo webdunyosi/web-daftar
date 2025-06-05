@@ -1,3 +1,4 @@
+
 // Autentifikatsiyani tekshirish
 function checkAuth() {
   const currentUser = sessionStorage.getItem("currentUser")
@@ -440,10 +441,10 @@ function qarzlarniKorsatish(
         : '<span class="px-2 py-1 text-xs font-semibold text-yellow-600 bg-yellow-100 rounded-full">To\'lanmagan</span>'
 
     tr.innerHTML = `
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-2 md:px-6 py-1 md:py-4 whitespace-nowrap">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-user text-gray-500"></i>
+                    <div class="flex-shrink-0 h-7 md:h-10 w-7 md:w-10 bg-gray-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-gray-500 text-sm md:text-xl"></i>
                     </div>
                     <div class="ml-4">
                         <div class="text-sm font-medium text-gray-900">${
@@ -453,33 +454,33 @@ function qarzlarniKorsatish(
                     </div>
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">
-                    <i class="fas fa-phone text-gray-400 mr-2"></i>${
+            <td class="px-3 md:px-6 py-1 md:py-4 whitespace-nowrap">
+                <a href="tel:${qarz.telefon}" class=" cursor-pointer text-sm text-blue-700 font-medium hover:underline">
+                    <i class="fas fa-phone text-blue-700 mr-2 animate-pulse"></i>${
                       qarz.telefon
                     }
-                </div>
+                </a>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-3 md:px-6 py-1 md:py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">
                     <i class="fas fa-tshirt text-gray-400 mr-2"></i>${
                       qarz.mahsulot
                     }
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-3 md:px-6 py-1 md:py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">
                     <i class="fas fa-money-bill-alt text-gray-400 mr-2"></i>${qarz.qarzMiqdori.toLocaleString()} so'm
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-3 md:px-6 py-1 md:py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">
                     <i class="fas fa-calendar text-gray-400 mr-2"></i>${new Date(
                       qarz.sana
                     ).toLocaleDateString()}
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-3 md:px-6 py-1 md:py-4 whitespace-nowrap">
                 <div class="text-sm ${
                   muddatiOtgan ? "text-red-600 font-bold" : "text-gray-900"
                 }">
@@ -491,18 +492,21 @@ function qarzlarniKorsatish(
                     </div>
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+            <td class="px-3 md:px-6 py-1 md:py-4 whitespace-nowrap text-sm font-medium space-x-2">
                 <button onclick="qarzniTahrirlash(${qarz.id})" 
-                    class="text-white bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded-md">
-                    <i class="fas fa-edit mr-1"></i>Tahrirlash
+                    class="text-white bg-yellow-500 hover:bg-yellow-600 px-1 pl-2 sm:pl-3 sm:px-3 py-1 rounded-md">
+                    <i class="fas fa-edit mr-1"></i>
+                    <span class="hidden sm:inline">Tahrirlash</span>
                 </button>
                 <button onclick="qarzniTolash(${qarz.id})" 
-                    class="text-white bg-green-500 hover:bg-green-600 px-3 py-1 rounded-md">
-                    <i class="fas fa-check mr-1"></i>To'landi
+                    class="text-white bg-green-500 hover:bg-green-600 px-1 pl-2 sm:pl-3 sm:px-3 py-1 rounded-md">
+                    <i class="fas fa-check mr-1"></i>
+                    <span class="hidden sm:inline">To'landi</span>
                 </button>
                 <button onclick="qarzniOchirish(${qarz.id})" 
-                    class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md">
-                    <i class="fas fa-trash mr-1"></i>O'chirish
+                    class="text-white bg-red-500 hover:bg-red-600 px-1 pl-2 sm:pl-3 sm:px-3 py-1 rounded-md">
+                    <i class="fas fa-trash mr-1"></i>
+                    <span class="hidden sm:inline">O'chirish</span>
                 </button>
             </td>
         `

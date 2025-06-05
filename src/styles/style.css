@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Input stillarini sozlash */
 input {
   border: 1px solid #e2e8f0;
@@ -270,15 +272,18 @@ tbody tr:hover {
   color: #4b5563;
   background: rgba(243, 244, 246, 0.8);
 }
-
 tbody tr {
   transition: all 0.3s ease;
 }
-
 tbody tr:hover {
   background: rgba(255, 255, 255, 0.95) !important;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+@media (max-width: 768px) {
+  .table-header {
+    padding: 0.75rem 1rem;
+  }
 }
 
 /* Action buttons */

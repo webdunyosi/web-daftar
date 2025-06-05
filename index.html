@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="uz" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,26 +17,26 @@
   <body>
     <div class="main-background"></div>
     <div class="backdrop-blur">
-      <div class="max-w-6xl mx-auto px-4 py-8">
-        <div class="flex justify-between items-center">
+      <div class="max-w-6xl mx-auto px-4 py-6 md:py-10">
+        <div class="flex justify-between items-center mb-5 md:mb-8">
           <!-- Header section -->
-          <div class="flex items-center gap-3 mb-12 animate-fade-in">
+          <div class="flex items-center gap-1.5 md:gap-3 animate-fade-in">
             <img
-              class="w-16 rounded-xl mx-auto"
+              class="w-14 md:w-16 rounded-md md:rounded-xl mx-auto"
               src="src/images/web-daftar.png"
               alt=""
             />
             <!-- <i class="fas fa-store text-5xl mb-4 text-blue-600"></i> -->
             <div>
-              <h1 class="text-4xl font-bold text-white">Kiyim Magazini</h1>
-              <p class="text-gray-200 text-xl">Qarz Daftar Tizimi</p>
+              <h1 class="text-lg sm:text-2xl md:text-4xl font-bold text-white">Kiyim Magazini</h1>
+              <p class="text-gray-200 text-sm sm:text-base md:text-xl">Qarz Daftar Tizimi</p>
             </div>
           </div>
 
-          <div class="flex justify-end mb-4">
+          <div class="flex justify-end">
             <a
               href="src/pages/diagram.html"
-              class="bg-gray-900 text-white px-5 py-2 rounded-full shadow hover:bg-gray-700 transition font-semibold"
+              class="submit-button px-5 py-2 rounded-full shadow font-semibold whitespace-nowrap"
             >
               <i class="fas fa-chart-line mr-2"></i> Diagrama
             </a>
@@ -45,10 +45,10 @@
 
         <!-- Stats cards -->
         <div
-          class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-slide-up"
+          class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 animate-slide-up"
         >
           <div
-            class="bg-white/80 backdrop-blur-md p-6 py-3 md:py-6 rounded-lg shadow-lg"
+            class="hidden md:inline bg-white/80 backdrop-blur-md p-5 md:p-6 py-2 md:py-6 rounded-lg shadow-lg"
           >
             <div class="flex items-center">
               <i class="fas fa-users text-3xl text-blue-500 mr-4"></i>
@@ -61,7 +61,7 @@
             </div>
           </div>
           <div
-            class="bg-white/80 backdrop-blur-md p-6 py-3 md:py-6 rounded-lg shadow-lg"
+            class="bg-white/80 backdrop-blur-md p-5 md:p-6 py-2 md:py-6 rounded-lg shadow-lg"
           >
             <div class="flex items-center">
               <i
@@ -76,7 +76,7 @@
             </div>
           </div>
           <div
-            class="bg-white/80 backdrop-blur-md p-6 py-3 md:py-6 rounded-lg shadow-lg"
+            class="hidden md:inline bg-white/80 backdrop-blur-md p-5 md:p-6 py-2 md:py-6 rounded-lg shadow-lg"
           >
             <div class="flex items-center">
               <i class="fas fa-clock text-3xl text-red-500 mr-4"></i>
@@ -92,7 +92,7 @@
 
         <!-- Yangi qarz qo'shish formasi -->
         <div
-          class="mx-auto my-8 bg-white/80 backdrop-blur-md p-4 md:p-6 rounded-2xl shadow-2xl animate-slide-up"
+          class="mx-auto my-5 md:my-8 bg-white/80 backdrop-blur-md p-4 md:p-6 rounded-lg shadow-2xl animate-slide-up"
         >
           <div class="flex items-center mb-6 mt-2">
             <i class="fas fa-plus-circle text-3xl text-blue-500 mr-3"></i>
@@ -180,11 +180,13 @@
                 ></i>
               </div>
             </div>
-            <button
-              type="submit"
-              class="w-full py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold flex items-center justify-center transition"
-            >
-              <i class="fas fa-save mr-2"></i> Qarzni saqlash
+            <button type="submit" class="submit-button group">
+              <span class="flex items-center justify-center">
+                <i
+                  class="fas fa-save mr-2 group-hover:translate-x-1 transition-transform"
+                ></i>
+                Qarzni saqlash
+              </span>
             </button>
           </form>
         </div>
@@ -226,7 +228,7 @@
           <div class="grid grid-cols-4 gap-2 mb-4">
             <button
               onclick="filterQarzlar('all')"
-              class="filter-btn text-center active flex items-center justify-center sm:justify-start gap-2 px-2 sm:px-4 py-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 hover:text-white transition-colors"
+              class="filter-btn text-center active flex items-center justify-center sm:justify-start gap-2 px-2 sm:px-4 py-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 hover:text-white transition-colors whitespace-nowrap"
               data-filter="all"
             >
               <i class="fas fa-list"></i>
@@ -234,7 +236,7 @@
             </button>
             <button
               onclick="filterQarzlar('tolangan')"
-              class="filter-btn flex items-center justify-center sm:justify-start gap-2 px-2 sm:px-4 py-2 rounded-full bg-green-500 text-white hover:bg-green-600 hover:text-white transition-colors"
+              class="filter-btn flex items-center justify-center sm:justify-start gap-2 px-2 sm:px-4 py-2 rounded-full bg-green-500 text-white hover:bg-green-600 hover:text-white transition-colors whitespace-nowrap"
               data-filter="tolangan"
             >
               <i class="fas fa-check"></i>
@@ -242,7 +244,7 @@
             </button>
             <button
               onclick="filterQarzlar('tolanmagan')"
-              class="filter-btn flex items-center justify-center sm:justify-start gap-2 px-2 sm:px-4 py-2 rounded-full bg-yellow-500 text-white hover:bg-yellow-600 hover:text-white transition-colors"
+              class="filter-btn flex items-center justify-center sm:justify-start gap-2 px-2 sm:px-4 py-2 rounded-full bg-yellow-500 text-white hover:bg-yellow-600 hover:text-white transition-colors whitespace-nowrap"
               data-filter="tolanmagan"
             >
               <i class="fas fa-clock"></i>
@@ -250,7 +252,7 @@
             </button>
             <button
               onclick="filterQarzlar('muddatiOtgan')"
-              class="filter-btn flex items-center justify-center sm:justify-start gap-2 px-2 sm:px-4 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 hover:text-white transition-colors"
+              class="filter-btn flex items-center justify-center sm:justify-start gap-2 px-2 sm:px-4 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 hover:text-white transition-colors whitespace-nowrap"
               id="muddatiOtganBtn"
               data-filter="muddatiOtgan"
             >
