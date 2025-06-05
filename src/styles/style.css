@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Input stillarini sozlash */
 input {
   border: 1px solid #e2e8f0;
