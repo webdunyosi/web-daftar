@@ -442,8 +442,8 @@ function qarzlarniKorsatish(
     tr.innerHTML = `
             <td class="px-2 md:px-6 py-1 md:py-4 whitespace-nowrap">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-user text-gray-500"></i>
+                    <div class="flex-shrink-0 h-7 md:h-10 w-7 md:w-10 bg-gray-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-gray-500 text-sm md:text-xl"></i>
                     </div>
                     <div class="ml-4">
                         <div class="text-sm font-medium text-gray-900">${
@@ -454,8 +454,8 @@ function qarzlarniKorsatish(
                 </div>
             </td>
             <td class="px-3 md:px-6 py-1 md:py-4 whitespace-nowrap">
-                <a href="tel:${qarz.telefon}" class="cursor-pointer text-sm text-gray-900">
-                    <i class="fas fa-phone text-gray-400 mr-2"></i>${
+                <a href="tel:${qarz.telefon}" class=" cursor-pointer text-sm text-blue-700 font-medium hover:underline">
+                    <i class="fas fa-phone text-blue-700 mr-2 animate-pulse"></i>${
                       qarz.telefon
                     }
                 </a>
