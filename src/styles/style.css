@@ -226,7 +226,11 @@ tbody tr:hover {
 .submit-button:hover::after {
   left: 100%;
 }
-
+@media (max-width: 768px) {
+  .submit-button {
+    padding: 0.5rem;
+  }
+}
 .remember-me {
   display: flex;
   align-items: center;
@@ -422,7 +426,7 @@ tbody tr:hover {
   }
 
   .form-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   input,
@@ -439,7 +443,7 @@ tbody tr:hover {
   }
 
   .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 0.3rem;
   }
 }
 
@@ -612,10 +616,6 @@ tbody tr:hover {
   .search-box {
     width: 100%;
     margin-top: 1rem;
-  }
-
-  .form-group {
-    margin-bottom: 1.25rem;
   }
 
   input,
