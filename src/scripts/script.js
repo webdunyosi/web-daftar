@@ -493,16 +493,19 @@ function qarzlarniKorsatish(
             </td>
             <td class="px-3 md:px-6 py-1 md:py-4 whitespace-nowrap text-sm font-medium space-x-2">
                 <button onclick="qarzniTahrirlash(${qarz.id})" 
-                    class="text-white bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded-md">
-                    <i class="fas fa-edit mr-1"></i>Tahrirlash
+                    class="text-white bg-yellow-500 hover:bg-yellow-600 px-1 pl-2 sm:pl-3 sm:px-3 py-1 rounded-md">
+                    <i class="fas fa-edit mr-1"></i>
+                    <span class="hidden sm:inline">Tahrirlash</span>
                 </button>
                 <button onclick="qarzniTolash(${qarz.id})" 
-                    class="text-white bg-green-500 hover:bg-green-600 px-3 py-1 rounded-md">
-                    <i class="fas fa-check mr-1"></i>To'landi
+                    class="text-white bg-green-500 hover:bg-green-600 px-1 pl-2 sm:pl-3 sm:px-3 py-1 rounded-md">
+                    <i class="fas fa-check mr-1"></i>
+                    <span class="hidden sm:inline">To'landi</span>
                 </button>
                 <button onclick="qarzniOchirish(${qarz.id})" 
-                    class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md">
-                    <i class="fas fa-trash mr-1"></i>O'chirish
+                    class="text-white bg-red-500 hover:bg-red-600 px-1 pl-2 sm:pl-3 sm:px-3 py-1 rounded-md">
+                    <i class="fas fa-trash mr-1"></i>
+                    <span class="hidden sm:inline">O'chirish</span>
                 </button>
             </td>
         `
