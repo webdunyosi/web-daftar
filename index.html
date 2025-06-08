@@ -203,9 +203,9 @@
               <h2 class="text-xl font-semibold">Qarzlar Ro'yxati</h2>
             </div>
             <div
-              class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+              class="flex items-center gap-1.5 md:gap-4 w-full sm:w-auto mt-2 md:mt-0 whitespace-nowrap"
             >
-              <div class="search-box w-full sm:w-auto">
+              <div class="search-box w-full sm:w-auto flex items-center">
                 <i class="fas fa-search search-icon"></i>
                 <input
                   type="text"
@@ -216,10 +216,10 @@
               </div>
               <button
                 onclick="exportToExcel()"
-                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md flex items-center w-full sm:w-auto justify-center"
+                class="bg-green-500 hover:bg-green-600 text-white px-9 md:px-4 py-3 md:py-2 rounded-full flex items-center justify-center"
               >
-                <i class="fas fa-file-excel mr-2"></i>
-                Excelga export
+                <i class="fas fa-file-excel mr-0 md:mr-2"></i>
+                <span class="hidden sm:inline">Excelga export</span>
               </button>
             </div>
           </div>
